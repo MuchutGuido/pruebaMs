@@ -12,7 +12,7 @@
 	<artifactId>prueba</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>prueba</name>
-	<description>Proyecto base para GCP con Java 21 LTS</description>
+	<description>Proyecto base estándar para Cloud Run con Java 21 LTS</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -27,28 +27,10 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version> <!-- Adaptado a la versión estable 21 -->
-		<spring-cloud-gcp.version>5.9.0</spring-cloud-gcp.version>
+		<java.version>21</java.version>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.google.cloud</groupId>
-				<artifactId>spring-cloud-gcp-dependencies</artifactId>
-				<version>${spring-cloud-gcp.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
-		<!-- Starter para Google Cloud SQL con MySQL -->
-		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,7 +46,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Lombok nativo (su versión ahora es manejada de forma segura por el parent) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -106,7 +87,6 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<!-- Spring Boot Parent inyecta la versión correcta automáticamente -->
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
