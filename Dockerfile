@@ -1,14 +1,16 @@
-# 1. Usamos una imagen que tenga Maven y Java 26 para compilar en la nube
-FROM maven:3.9-eclipse-temurin-26 AS build
+# Fase 1: Compilación
+FROM maven:3.9.9-eclipse-temurin-21 AS build
 WORKDIR /app
-
-# 2. Copiamos el código de IntelliJ al contenedor de Google
 COPY pom.xml .
+RUN mvn dependency:go-offline -B
 COPY src ./src
-
-# 3. Compilamos y generamos el .jar dentro de Google Cloud
 RUN mvn clean package -DskipTests
 
-# 4. Le decimos al contenedor cómo arrancar la aplicación
-# (Buscamos dinámicamente cualquier jar en 'target' para evitar escribir el nombre exacto)
-ENTRYPOINT ["sh", "-c", "java -jar target/*.jar"]
+# Fase 2: Ejecución
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/prueba-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+
+# En Cloud Run arrancará directo usando el archivo base e inyectando el puerto de Google
+ENTRYPOINT ["java", "-Dserver.port=${PORT:8080}", "-jar", "app.jar"]

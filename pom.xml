@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.1.0</version>
+		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gcp</groupId>
 	<artifactId>prueba</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>prueba</name>
+	<description>Proyecto base para GCP con Java 21 LTS</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -27,15 +27,16 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>26</java.version>
+		<java.version>21</java.version> <!-- Adaptado a la versión estable 21 -->
+		<spring-cloud-gcp.version>5.9.0</spring-cloud-gcp.version>
 	</properties>
-	<!-- The Spring Framework on Google Cloud BOM will manage spring-cloud-gcp version numbers for you. -->
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.google.cloud</groupId>
 				<artifactId>spring-cloud-gcp-dependencies</artifactId>
-				<version>5.4.0</version>
+				<version>${spring-cloud-gcp.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -43,6 +44,7 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- Starter para Google Cloud SQL con MySQL -->
 		<dependency>
 			<groupId>com.google.cloud</groupId>
 			<artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
@@ -53,38 +55,31 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>8.4.0</version>
-			<scope>compile</scope>
-		</dependency>
-		<!--<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
-		</dependency>-->
+		</dependency>
+
+		<!-- Lombok nativo (su versión ahora es manejada de forma segura por el parent) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -106,38 +101,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<annotationProcessorPaths>
-								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
-								</path>
-							</annotationProcessorPaths>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-testCompile</id>
-						<phase>test-compile</phase>
-						<goals>
-							<goal>testCompile</goal>
-						</goals>
-						<configuration>
-							<annotationProcessorPaths>
-								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
-								</path>
-							</annotationProcessorPaths>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<!-- Spring Boot Parent inyecta la versión correcta automáticamente -->
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
